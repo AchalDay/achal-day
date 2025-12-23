@@ -6,10 +6,11 @@
 
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f7f5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, #f6f8f7 0%, #eef2f0 100%);
       margin: 0;
       padding: 0;
+      color: #2f2f2f;
     }
 
     .container {
@@ -17,52 +18,66 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 24px;
     }
 
     .card {
       max-width: 420px;
       width: 100%;
       background: #ffffff;
-      padding: 32px 26px;
-      border-radius: 16px;
+      padding: 36px 28px;
+      border-radius: 20px;
       text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
     }
 
     h1 {
-      font-size: 24px;
-      margin-bottom: 8px;
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      letter-spacing: 0.2px;
     }
 
     .subtitle {
       font-size: 15px;
-      color: #555;
-      margin-bottom: 16px;
+      color: #5f6f67;
+      margin-bottom: 22px;
     }
 
     .desc {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 26px;
-      line-height: 1.5;
+      font-size: 14.5px;
+      color: #6b6b6b;
+      margin-bottom: 34px;
+      line-height: 1.6;
     }
 
     button {
       width: 100%;
-      padding: 14px;
+      padding: 15px;
       font-size: 15px;
-      border-radius: 10px;
+      font-weight: 500;
+      border-radius: 12px;
       border: none;
-      background: #4caf50;
+      background: #3f7f5f;
       color: white;
       cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    button:hover {
+      background: #356b50;
+      transform: translateY(-1px);
     }
 
     .note {
-      margin-top: 14px;
+      margin-top: 18px;
       font-size: 12px;
-      color: #888;
+      color: #8a8a8a;
+    }
+
+    .note span {
+      display: block;
+      margin-top: 4px;
     }
   </style>
 </head>
@@ -72,22 +87,33 @@
 <div class="container">
   <div class="card">
     <h1>Achal Day 🌱</h1>
-    <div class="subtitle">Your calm daily assistant</div>
 
-    <div class="desc">
-      A gentle space to plan your day, reflect,
-      and move forward — without pressure.
+    <div class="subtitle">
+      Your calm daily assistant
     </div>
 
-    <button onclick="startGently()">Start gently</button>
+    <div class="desc">
+      A quiet space to plan your day,  
+      reflect without judgement,  
+      and move forward — gently.
+    </div>
 
-    <div class="note">No sign-up. No pressure.</div>
+    <button onclick="startGently()">
+      Start gently
+    </button>
+
+    <div class="note">
+      No sign-up. No pressure.
+      <span>Just you and your day.</span>
+    </div>
   </div>
 </div>
 
 <script>
   function startGently() {
-    alert("Hey 🙂\n\nI’m here with you.\nLet’s take this one step at a time.");
+    alert(
+      "Hey 🙂\n\nI’m here with you.\nWe don’t need to rush.\n\nHow are you feeling right now?"
+    );
   }
 </script>
 
