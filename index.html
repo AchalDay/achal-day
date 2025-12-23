@@ -119,3 +119,185 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Achal Day</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, #f6f8f7 0%, #eef2f0 100%);
+      margin: 0;
+      padding: 0;
+      color: #2f2f2f;
+    }
+
+    .container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      max-width: 420px;
+      width: 100%;
+      background: #ffffff;
+      padding: 36px 28px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: #5f6f67;
+      margin-bottom: 22px;
+    }
+
+    .desc {
+      font-size: 14.5px;
+      color: #6b6b6b;
+      margin-bottom: 34px;
+      line-height: 1.6;
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      font-size: 15px;
+      font-weight: 500;
+      border-radius: 12px;
+      border: none;
+      background: #3f7f5f;
+      color: white;
+      cursor: pointer;
+    }
+
+    .note {
+      margin-top: 18px;
+      font-size: 12px;
+      color: #8a8a8a;
+    }
+
+    /* Chat */
+    .chat-box {
+      display: none;
+      max-width: 520px;
+      width: 100%;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+    }
+
+    .chat {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 12px;
+    }
+
+    .msg {
+      max-width: 75%;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      border-radius: 14px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .bot {
+      background: #e8f5e9;
+      color: #2e7d32;
+      text-align: left;
+    }
+
+    .user {
+      background: #f1f1f1;
+      color: #333;
+      margin-left: auto;
+      text-align: right;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Welcome -->
+  <div class="card" id="welcome">
+    <h1>Achal Day 🌱</h1>
+    <div class="subtitle">Your calm daily assistant</div>
+    <div class="desc">
+      A quiet space to plan your day,  
+      reflect without judgement,  
+      and move forward — gently.
+    </div>
+    <button onclick="startGently()">Start gently</button>
+    <div class="note">No sign-up. No pressure.</div>
+  </div>
+
+  <!-- Chat -->
+  <div class="chat-box" id="chatBox">
+    <div class="chat" id="chat">
+      <div class="msg bot">Hey 🙂 I’m here with you.</div>
+      <div class="msg bot">Before we plan anything… how are you feeling right now?</div>
+    </div>
+    <input id="input" placeholder="Type here and press Enter..." />
+  </div>
+
+</div>
+
+<script>
+  function startGently() {
+    document.getElementById("welcome").style.display = "none";
+    document.getElementById("chatBox").style.display = "block";
+    document.getElementById("input").focus();
+  }
+
+  const chat = document.getElementById("chat");
+  const input = document.getElementById("input");
+
+  input.addEventListener("keypress", function(e) {
+    if (e.key === "Enter" && this.value.trim()) {
+      const text = this.value.trim();
+      addMsg(text, "user");
+      this.value = "";
+
+      setTimeout(() => {
+        addMsg("Thanks for telling me. Let’s keep today light 🌱", "bot");
+        addMsg("What are 3 small things you want to take care of?", "bot");
+      }, 500);
+    }
+  });
+
+  function addMsg(text, type) {
+    const div = document.createElement("div");
+    div.className = "msg " + type;
+    div.textContent = text;
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+  }
+</script>
+
+</body>
+</html>
