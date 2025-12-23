@@ -1,45 +1,56 @@
 <!DOCTYPE html>
 <html>
-<head> 
+<head>
   <title>Achal Day</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f7f9f8;
+      background: #f2f5f3;
       margin: 0;
       padding: 20px;
     }
     .box {
-      max-width: 500px;
+      max-width: 520px;
       margin: auto;
       background: white;
       padding: 20px;
       border-radius: 14px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
     h1 {
       font-size: 22px;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
     p {
-      font-size: 15px;
-      color: #444;
+      font-size: 14px;
+      color: #555;
     }
     .chat {
       margin-top: 20px;
-      border-top: 1px solid #eee;
-      padding-top: 15px;
+      max-height: 300px;
+      overflow-y: auto;
+      padding-bottom: 10px;
     }
     .msg {
+      max-width: 75%;
+      padding: 10px 12px;
       margin-bottom: 10px;
+      border-radius: 12px;
       font-size: 14px;
+      line-height: 1.4;
+      word-wrap: break-word;
     }
     .bot {
+      background: #e8f5e9;
       color: #2e7d32;
+      text-align: left;
     }
     .user {
-      text-align: right;
+      background: #f1f1f1;
       color: #333;
+      margin-left: auto;
+      text-align: right;
     }
     input {
       width: 100%;
@@ -49,6 +60,13 @@
       border-radius: 8px;
       border: 1px solid #ccc;
     }
+    .reset {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #888;
+      cursor: pointer;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -56,19 +74,47 @@
 <div class="box">
   <h1>Achal Day 🌱</h1>
   <p>Your calm daily assistant.</p>
-  <p>I help you plan your day, step by step.</p>
 
-  <div class="chat" id="chat">
-    <div class="msg bot">👋 Hi, I’m Achal Day. Type <b>start</b> to plan your day.</div>
-  </div>
+  <div class="chat" id="chat"></div>
 
   <input type="text" id="input" placeholder="Type here and press Enter..." />
+
+  <div class="reset" onclick="resetChat()">Start a new day</div>
 </div>
 
 <script>
 let step = 0;
+let chatData = JSON.parse(localStorage.getItem("achalChat")) || [];
 
-document.getElementById("input").addEventListener("keypress", function(e) {
+const chat = document.getElementById("chat");
+const input = document.getElementById("input");
+
+function renderChat() {
+  chat.innerHTML = "";
+  chatData.forEach(m => {
+    const div = document.createElement("div");
+    div.className = "msg " + m.type;
+    div.innerHTML = m.text;
+    chat.appendChild(div);
+  });
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function saveChat() {
+  localStorage.setItem("achalChat", JSON.stringify(chatData));
+}
+
+function addMsg(text, type) {
+  chatData.push({ text, type });
+  saveChat();
+  renderChat();
+}
+
+if (chatData.length === 0) {
+  addMsg("👋 Hi, I’m Achal Day. Type <b>start</b> to plan your day.", "bot");
+}
+
+input.addEventListener("keypress", function(e) {
   if (e.key === "Enter") {
     const text = this.value.trim();
     if (!text) return;
@@ -76,20 +122,11 @@ document.getElementById("input").addEventListener("keypress", function(e) {
     addMsg(text, "user");
     this.value = "";
 
-    setTimeout(() => respond(text), 400);
+    setTimeout(() => respond(), 400);
   }
 });
 
-function addMsg(text, type) {
-  const chat = document.getElementById("chat");
-  const div = document.createElement("div");
-  div.className = "msg " + type;
-  div.innerHTML = text;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-function respond(text) {
+function respond() {
   if (step === 0) {
     addMsg("🙂 Good morning. How are you feeling today?", "bot");
     step = 1;
@@ -103,6 +140,16 @@ function respond(text) {
     addMsg("You’re doing well. One step at a time.", "bot");
   }
 }
+
+function resetChat() {
+  localStorage.removeItem("achalChat");
+  chatData = [];
+  step = 0;
+  renderChat();
+  addMsg("👋 Hi, I’m Achal Day. Type <b>start</b> to plan your day.", "bot");
+}
+
+renderChat();
 </script>
 
 </body>
