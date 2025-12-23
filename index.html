@@ -1,93 +1,36 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Achal Day</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f2f5f3;
-      margin: 0;
-      padding: 20px;
-    }
-    .box { 
-      max-width: 520px;
-      margin: auto;
-      background: white;
-      padding: 20px;
-      border-radius: 14px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    }
-    h1 {
-      font-size: 22px;
-      margin-bottom: 4px;
-    }
-    p {
-      font-size: 14px;
-      color: #555;
-    }
-    .chat {
-      margin-top: 20px;
-      max-height: 300px;
-      overflow-y: auto;
-      padding-bottom: 10px;
-    }
-    .msg {
-      max-width: 75%;
-      padding: 10px 12px;
-      margin-bottom: 10px;
-      border-radius: 12px;
-      font-size: 14px;
-      line-height: 1.4;
-      word-wrap: break-word;
-    }
-    .bot {
-      background: #e8f5e9;
-      color: #2e7d32;
-      text-align: left;
-    }
-    .user {
-      background: #f1f1f1;
-      color: #333;
-      margin-left: auto;
-      text-align: right;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      font-size: 14px;
-      margin-top: 10px;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-    }
-    .reset {
-      margin-top: 10px;
-      font-size: 12px;
-      color: #888;
-      cursor: pointer;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-
-<div class="box">
-  <h1>Achal Day 🌱</h1>
-  <p>Your calm daily assistant.</p>
-
-  <div class="chat" id="chat"></div>
-
-  <input type="text" id="input" placeholder="Type here and press Enter..." />
-
-  <div class="reset" onclick="resetChat()">Start a new day</div>
-</div>
-
 <script>
 let step = 0;
 let chatData = JSON.parse(localStorage.getItem("achalChat")) || [];
 
 const chat = document.getElementById("chat");
 const input = document.getElementById("input");
+
+const humanReplies = {
+  greeting: [
+    "Hey 🙂 I’m here.",
+    "Hi. I’m with you.",
+    "Hello 🌱 Take a breath."
+  ],
+  feelingGood: [
+    "That’s good to hear.",
+    "Nice 🙂 Let’s keep that energy.",
+    "Glad you’re feeling okay."
+  ],
+  feelingTired: [
+    "Thanks for telling me.",
+    "That’s okay. We’ll go slow today.",
+    "Got it. No pressure then."
+  ],
+  encourage: [
+    "That’s enough for today.",
+    "You don’t need to do everything.",
+    "One step is more than enough."
+  ]
+};
+
+function random(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
 
 function renderChat() {
   chat.innerHTML = "";
@@ -111,7 +54,7 @@ function addMsg(text, type) {
 }
 
 if (chatData.length === 0) {
-  addMsg("👋 Hi, I’m Achal Day. Type <b>start</b> to plan your day.", "bot");
+  addMsg(random(humanReplies.greeting) + "<br>Want to plan your day together?", "bot");
 }
 
 input.addEventListener("keypress", function(e) {
@@ -122,22 +65,30 @@ input.addEventListener("keypress", function(e) {
     addMsg(text, "user");
     this.value = "";
 
-    setTimeout(() => respond(), 400);
+    setTimeout(() => respond(text.toLowerCase()), 500);
   }
 });
 
-function respond() {
+function respond(text) {
   if (step === 0) {
-    addMsg("🙂 Good morning. How are you feeling today?", "bot");
+    if (text.includes("good") || text.includes("fine") || text.includes("ok")) {
+      addMsg(random(humanReplies.feelingGood), "bot");
+    } else if (text.includes("tired") || text.includes("bad") || text.includes("not")) {
+      addMsg(random(humanReplies.feelingTired), "bot");
+    } else {
+      addMsg("Thanks for sharing that.", "bot");
+    }
+
+    addMsg("Let’s keep today light.<br>What are <b>3 things</b> you want to take care of?", "bot");
     step = 1;
+
   } else if (step === 1) {
-    addMsg("Nice. What are the <b>3 most important things</b> for today?", "bot");
+    addMsg("Okay. I’ve got that.", "bot");
+    addMsg(random(humanReplies.encourage) + "<br>I’m here if you need me later 🌱", "bot");
     step = 2;
-  } else if (step === 2) {
-    addMsg("Got it 👍 Let’s keep the day simple. I’ll check in later. 🌱", "bot");
-    step = 3;
+
   } else {
-    addMsg("You’re doing well. One step at a time.", "bot");
+    addMsg("I’m still here. Talk to me anytime.", "bot");
   }
 }
 
@@ -146,11 +97,8 @@ function resetChat() {
   chatData = [];
   step = 0;
   renderChat();
-  addMsg("👋 Hi, I’m Achal Day. Type <b>start</b> to plan your day.", "bot");
+  addMsg(random(humanReplies.greeting) + "<br>Want to plan your day together?", "bot");
 }
 
 renderChat();
 </script>
-
-</body>
-</html>
