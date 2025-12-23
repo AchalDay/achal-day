@@ -14,37 +14,96 @@
       max-width: 500px;
       margin: auto;
       background: white;
-      padding: 24px;
+      padding: 20px;
       border-radius: 14px;
     }
     h1 {
       font-size: 22px;
+      margin-bottom: 5px;
     }
     p {
-      font-size: 16px;
+      font-size: 15px;
       color: #444;
     }
-    button {
+    .chat {
+      margin-top: 20px;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+    }
+    .msg {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    .bot {
+      color: #2e7d32;
+    }
+    .user {
+      text-align: right;
+      color: #333;
+    }
+    input {
       width: 100%;
-      padding: 14px;
-      font-size: 16px;
-      background: #4CAF50;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      margin-top: 12px;
+      padding: 12px;
+      font-size: 14px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
     }
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>Achal Day 🌱</h1>
-    <p>Your calm daily assistant.</p>
-    <p>I help you plan your day, stay relaxed, and move forward step by step.</p>
-    <button onclick="alert('Good morning 🙂\\n\\nTell me 3 important things for today.')">
-      Start my day
-    </button>
+
+<div class="box">
+  <h1>Achal Day 🌱</h1>
+  <p>Your calm daily assistant.</p>
+  <p>I help you plan your day, step by step.</p>
+
+  <div class="chat" id="chat">
+    <div class="msg bot">👋 Hi, I’m Achal Day. Type <b>start</b> to plan your day.</div>
   </div>
+
+  <input type="text" id="input" placeholder="Type here and press Enter..." />
+</div>
+
+<script>
+let step = 0;
+
+document.getElementById("input").addEventListener("keypress", function(e) {
+  if (e.key === "Enter") {
+    const text = this.value.trim();
+    if (!text) return;
+
+    addMsg(text, "user");
+    this.value = "";
+
+    setTimeout(() => respond(text), 400);
+  }
+});
+
+function addMsg(text, type) {
+  const chat = document.getElementById("chat");
+  const div = document.createElement("div");
+  div.className = "msg " + type;
+  div.innerHTML = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+function respond(text) {
+  if (step === 0) {
+    addMsg("🙂 Good morning. How are you feeling today?", "bot");
+    step = 1;
+  } else if (step === 1) {
+    addMsg("Nice. What are the <b>3 most important things</b> for today?", "bot");
+    step = 2;
+  } else if (step === 2) {
+    addMsg("Got it 👍 Let’s keep the day simple. I’ll check in later. 🌱", "bot");
+    step = 3;
+  } else {
+    addMsg("You’re doing well. One step at a time.", "bot");
+  }
+}
+</script>
+
 </body>
 </html>
-
